@@ -11,8 +11,18 @@ use pocketmine\utils\TextFormat;
 
 class WoolVolcano extends PluginBase implements Listener
 {
+    /*** @var WoolVolcano */
+    private static $instance;
+
+    /*** @return WoolVolcano */
+    public static function getInstance(): WoolVolcano
+    {
+        return self::$instance;
+    }
+
     protected function onEnable(): void
     {
+        self::$instance = $this;
         $this->getServer()->getPluginManager()->registerEvents(new DefaultListener($this), $this);
 
         $this->getLogger()->info(TextFormat::GREEN . 'This plugin has been enabled!.');
