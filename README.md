@@ -6,6 +6,10 @@ Win Effect by cubecraft, now in pocketmine
 - Put the WoolVolcano_v1.phar inside plugins/.
 - Start the server.
 
+# How can I preview?
+Only op users can type "volcano" without quotes in chat.
+[Here](https://twitter.com/Josscoder/status/1396615216591425545) is an example video
+
 # For developers
 To give the player the win effect, do:
 ````
