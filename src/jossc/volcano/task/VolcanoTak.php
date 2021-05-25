@@ -2,12 +2,12 @@
 
 namespace jossc\volcano\task;
 
+use jossc\volcano\entity\FallingWool;
 use jossc\volcano\utils\Utils;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\Location;
-use pocketmine\entity\object\FallingBlock;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
@@ -22,7 +22,7 @@ class VolcanoTak extends Task
     /*** @var array */
     private $blocks = [];
     /*** @var int */
-    private $amount = 70;
+    private $amount = 100;
 
     /**
      * VolcanoTak constructor.
@@ -35,6 +35,7 @@ class VolcanoTak extends Task
         $this->world = $world;
     }
 
+    /*** @return bool */
     private function isExecutable(): bool
     {
         $player = $this->player;
@@ -49,7 +50,7 @@ class VolcanoTak extends Task
             $this->getHandler()->cancel();
 
             foreach ($this->blocks as $block) {
-                if (!$block instanceof FallingBlock) continue;
+                if (!$block instanceof FallingWool) continue;
 
                 if (!$block->isFlaggedForDespawn()) {
                     $block->flagForDespawn();
@@ -76,30 +77,28 @@ class VolcanoTak extends Task
         $this->amount--;
     }
 
-    private function generateFallingBlock(Location $location): FallingBlock
+    /**
+     * @param Location $location
+     * @return FallingWool
+     */
+    private function generateFallingBlock(Location $location): FallingWool
     {
         $nbt = EntityDataHelper::createBaseNBT($location->asVector3());
 
         $meta = rand(0, 15);
-        $fallingBlock = new FallingBlock($location, BlockFactory::getInstance()->get(BlockLegacyIds::WOOL, $meta), $nbt);
+        $fallingBlock = new FallingWool($location, BlockFactory::getInstance()->get(BlockLegacyIds::WOOL, $meta), $nbt);
 
-        $x = (double) rand(-1.5, 1.5);
-        $z = (double) rand(-1.5, 1.5);
-        $fallingBlock->setMotion(new Vector3($x, (double) 0.75, (double) $z));
+        $fallingBlock->setMotion(new Vector3(
+            -sin(mt_rand(1, 360) /60 * M_PI),
+            0.95,
+            cos(mt_rand(1, 360) / 60 * M_PI))
+        );
 
-        $fallingBlock->setRotation(rand(1, 360), rand(1, 360));
-
-        $fallingBlock->setForceMovementUpdate(true);
         $fallingBlock->setSilent(true);
-
-        $fallingBlock->setCanClimb(false);
-        $fallingBlock->setCanClimbWalls(false);
-
-        if (!$fallingBlock->isInsideOfSolid()) {
-            $fallingBlock->spawnToAll();
-        }
-
+        $fallingBlock->setForceMovementUpdate(true);
         $fallingBlock->setCanSaveWithChunk(false);
+
+        $fallingBlock->spawnToAll();
 
         return $fallingBlock;
     }

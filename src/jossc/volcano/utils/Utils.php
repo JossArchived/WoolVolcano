@@ -7,12 +7,13 @@ use pocketmine\player\Player;
 
 class Utils
 {
+    /*** @param Player $player */
     public static function playDefaultSound(Player $player): void
     {
         $location = $player->getLocation();
 
         $pk = new PlaySoundPacket();
-        $pk->soundName = "random.pop";
+        $pk->soundName = "liquid.lavapop";
         $pk->volume = 1;
         $pk->pitch = 1;
         $pk->x = $location->x;
