@@ -8,7 +8,7 @@ Win Effect by cubecraft, now in pocketmine
 
 # How can I preview?
 Only op users can type "volcano" without quotes in chat.
-[Here](https://twitter.com/Josscoder/status/1396615216591425545) is an example video
+[Here](https://twitter.com/Josscoder/status/1397231329180364801) is an example video
 
 # For developers
 To give the player the win effect, do:
