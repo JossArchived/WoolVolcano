@@ -3,8 +3,6 @@
 namespace jossc\volcano\entity;
 
 use pocketmine\entity\object\FallingBlock;
-use pocketmine\item\Item;
-use pocketmine\item\ItemIdentifier;
 
 class FallingWool extends FallingBlock
 {
@@ -27,21 +25,7 @@ class FallingWool extends FallingBlock
 
             $this->block->position($world, $pos->x, $pos->y, $pos->z);
 
-            $blockTarget = null;
-
-            if ($this->onGround || $blockTarget !== null) {
-                $this->flagForDespawn();
-
-                $block = $world->getBlock($pos);
-
-                if (!$block->canBeReplaced() || !$world->isInWorld($pos->getFloorX(), $pos->getFloorY(), $pos->getFloorZ())
-                    || ($this->onGround && abs($this->location->y - $this->location->getFloorY()) > 0.001)
-                ){
-                    $air = new Item(new ItemIdentifier(0, 0));
-
-                    $world->dropItem($this->location, $air);
-                }
-            }
+            if ($this->onGround) $this->flagForDespawn();
         }
 
         return true;

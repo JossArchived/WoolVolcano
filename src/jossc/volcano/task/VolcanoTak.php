@@ -3,12 +3,12 @@
 namespace jossc\volcano\task;
 
 use jossc\volcano\entity\FallingWool;
-use jossc\volcano\utils\Utils;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\Location;
 use pocketmine\math\Vector3;
+use pocketmine\network\mcpe\protocol\PlaySoundPacket;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 use pocketmine\world\World;
@@ -20,7 +20,7 @@ class VolcanoTak extends Task
     /*** @var World */
     private $world;
     /*** @var array */
-    private $blocks = [];
+    private $fallingBlocks = [];
     /*** @var int */
     private $amount = 100;
 
@@ -49,29 +49,29 @@ class VolcanoTak extends Task
         if (!$this->isExecutable())  {
             $this->getHandler()->cancel();
 
-            foreach ($this->blocks as $block) {
-                if (!$block instanceof FallingWool) continue;
+            foreach ($this->fallingBlocks as $fallingBlock) {
+                if (!$fallingBlock instanceof FallingWool) continue;
 
-                if (!$block->isFlaggedForDespawn()) {
-                    $block->flagForDespawn();
-
-                    continue;
-                }
-
-                if ($block->isOnGround()) {
-                    $this->world->setBlock(
-                        $block->getBlock()->getPos(),
-                        BlockFactory::getInstance()->get(BlockLegacyIds::AIR, 0), true
-                    );
-                }
+                if (!$fallingBlock->isFlaggedForDespawn()) $fallingBlock->flagForDespawn();
             }
+
         } else {
             $player = $this->player;
+            $location = $player->getLocation();
 
-            $fallingBlock = $this->generateFallingBlock($player->getLocation());
-            array_push($this->blocks, $fallingBlock);
+            $fallingWool = $this->generateFallingWool($location);
 
-            Utils::playDefaultSound($player);
+            array_push($this->fallingBlocks, $fallingWool);
+
+            $pk = new PlaySoundPacket();
+            $pk->soundName = "liquid.lavapop";
+            $pk->volume = 1;
+            $pk->pitch = 1;
+            $pk->x = $location->x;
+            $pk->y = $location->y;
+            $pk->z = $location->z;
+
+            $player->getNetworkSession()->sendDataPacket($pk);
         }
 
         $this->amount--;
@@ -81,7 +81,7 @@ class VolcanoTak extends Task
      * @param Location $location
      * @return FallingWool
      */
-    private function generateFallingBlock(Location $location): FallingWool
+    private function generateFallingWool(Location $location): FallingWool
     {
         $nbt = EntityDataHelper::createBaseNBT($location->asVector3());
 
@@ -94,8 +94,8 @@ class VolcanoTak extends Task
             cos(mt_rand(1, 360) / 60 * M_PI))
         );
 
-        $fallingBlock->setSilent(true);
         $fallingBlock->setForceMovementUpdate(true);
+        $fallingBlock->setSilent(true);
         $fallingBlock->setCanSaveWithChunk(false);
 
         $fallingBlock->spawnToAll();
