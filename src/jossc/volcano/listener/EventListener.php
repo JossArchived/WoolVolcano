@@ -7,19 +7,16 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\utils\TextFormat;
 
-class DefaultListener implements Listener
-{
+class EventListener implements Listener {
     /*** @var WoolVolcano */
     private $instance;
 
-    public function __construct(WoolVolcano $instance)
-    {
+    public function __construct(WoolVolcano $instance) {
         $this->instance = $instance;
     }
 
     /*** @param PlayerChatEvent $event */
-    public function PlayerChatEvent(PlayerChatEvent $event): void
-    {
+    public function PlayerChatEvent(PlayerChatEvent $event): void {
         $player = $event->getPlayer();
 
         if (!$player->getServer()->isOp($player->getName())) return;

@@ -13,8 +13,7 @@ use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 use pocketmine\world\World;
 
-class VolcanoTak extends Task
-{
+class VolcanoTak extends Task {
     /*** @var Player */
     private $player;
     /*** @var World */
@@ -29,23 +28,20 @@ class VolcanoTak extends Task
      * @param Player $player
      * @param World $world
      */
-    public function __construct(Player $player, World $world)
-    {
+    public function __construct(Player $player, World $world) {
         $this->player = $player;
         $this->world = $world;
     }
 
     /*** @return bool */
-    private function isExecutable(): bool
-    {
+    private function isExecutable(): bool {
         $player = $this->player;
         $amount = $this->amount;
 
         return ($amount >= 1) && ($player->isOnline()) && ($player->getWorld() === $this->world);
     }
 
-    public function onRun(): void
-    {
+    public function onRun(): void {
         if (!$this->isExecutable())  {
             $this->getHandler()->cancel();
 
@@ -81,8 +77,7 @@ class VolcanoTak extends Task
      * @param Location $location
      * @return FallingWool
      */
-    private function generateFallingWool(Location $location): FallingWool
-    {
+    private function generateFallingWool(Location $location): FallingWool {
         $nbt = EntityDataHelper::createBaseNBT($location->asVector3());
 
         $meta = rand(0, 15);
