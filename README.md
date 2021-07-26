@@ -1,5 +1,4 @@
 # WoolVolcano
-Win Effect by cubecraft, now in pocketmine
 
 # Installation:
 - Download the latest version [here](https://github.com/Josscoder/WoolVolcano/releases/latest).
