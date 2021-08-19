@@ -5,12 +5,16 @@ namespace jossc\volcano\listener;
 use jossc\volcano\WoolVolcano;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\utils\TextFormat;
 
 class EventListener implements Listener {
+
     /*** @var WoolVolcano */
     private $instance;
 
+    /**
+     * EventListener constructor.
+     * @param WoolVolcano $instance
+     */
     public function __construct(WoolVolcano $instance) {
         $this->instance = $instance;
     }
@@ -19,13 +23,16 @@ class EventListener implements Listener {
     public function PlayerChatEvent(PlayerChatEvent $event): void {
         $player = $event->getPlayer();
 
-        if (!$player->getServer()->isOp($player->getName())) return;
+        if (!$player->getServer()->isOp($player->getName())) {
+            return;
+        }
 
-        if ($event->getMessage() != "volcano") return;
+        if ($event->getMessage() != "volcano") {
+            return;
+        }
 
         $event->cancel();
 
         $this->instance->giveTo($player);
-        $player->sendMessage(TextFormat::RED . 'A wool volcano is about to explode!.');
     }
 }

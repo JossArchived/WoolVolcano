@@ -16,6 +16,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\world\World;
 
 class WoolVolcano extends PluginBase {
+
     /*** @var WoolVolcano */
     private static $instance;
 
@@ -28,7 +29,6 @@ class WoolVolcano extends PluginBase {
         self::$instance = $this;
 
         $this->registerEntity();
-
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 
         $this->getLogger()->info(TextFormat::GREEN . 'This plugin has been enabled!.');
@@ -47,9 +47,8 @@ class WoolVolcano extends PluginBase {
 
     /*** @param Player $player */
     public function giveTo(Player $player): void {
-        $defaultWorld = $this->getServer()->getWorldManager()->getDefaultWorld();
         $this->getScheduler()->scheduleDelayedRepeatingTask(
-            new VolcanoTak($player, $defaultWorld), 0, 2
+            new VolcanoTak($player, $player->getWorld()), 0, 2
         );
     }
 
