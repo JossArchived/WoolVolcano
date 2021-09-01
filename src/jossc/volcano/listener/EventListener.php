@@ -2,21 +2,21 @@
 
 namespace jossc\volcano\listener;
 
-use jossc\volcano\WoolVolcano;
+use jossc\volcano\Main;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 
 class EventListener implements Listener {
 
-    /*** @var WoolVolcano */
-    private $instance;
+    /*** @var Main */
+    private $main;
 
     /**
      * EventListener constructor.
-     * @param WoolVolcano $instance
+     * @param Main $main
      */
-    public function __construct(WoolVolcano $instance) {
-        $this->instance = $instance;
+    public function __construct(Main $main) {
+        $this->main = $main;
     }
 
     /*** @param PlayerChatEvent $event */
@@ -33,6 +33,6 @@ class EventListener implements Listener {
 
         $event->cancel();
 
-        $this->instance->giveTo($player);
+        $this->main->giveTo($player);
     }
 }

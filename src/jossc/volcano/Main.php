@@ -2,7 +2,7 @@
 
 namespace jossc\volcano;
 
-use jossc\volcano\entity\FallingWool;
+use jossc\volcano\entity\CustomFallingWoolBlock;
 use jossc\volcano\listener\EventListener;
 use jossc\volcano\task\VolcanoTak;
 use pocketmine\block\BlockFactory;
@@ -15,40 +15,44 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\world\World;
 
-class WoolVolcano extends PluginBase {
+class Main extends PluginBase {
 
-    /*** @var WoolVolcano */
-    private static $instance;
-
-    /*** @return WoolVolcano */
-    public static function getInstance(): WoolVolcano {
-        return self::$instance;
-    }
+    /*** @var Main */
+    private static $main;
 
     protected function onEnable(): void{
-        self::$instance = $this;
+        self::$main = $this;
 
         $this->registerEntity();
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+
+        $this->getServer()->getPluginManager()->registerEvents(
+            new EventListener($this),
+            $this
+        );
 
         $this->getLogger()->info(TextFormat::GREEN . 'This plugin has been enabled!.');
     }
 
     private function registerEntity(): void {
-        EntityFactory::getInstance()->register(FallingWool::class,
-            function(World $world, CompoundTag $nbt) : FallingWool {
-            return new FallingWool(
+        EntityFactory::getInstance()->register(CustomFallingWoolBlock::class,
+            function(World $world, CompoundTag $nbt) : CustomFallingWoolBlock {
+            return new CustomFallingWoolBlock(
                 EntityDataHelper::parseLocation($nbt, $world),
                 BlockFactory::getInstance()->get(BlockLegacyIds::WOOL, 0),
                 $nbt
             );
-        }, ['FallingWool', 'minecraft:falling_wool_entity']);
+        }, ['CustomFallingWoolBlock', 'minecraft:falling_wool_block_entity']);
+    }
+
+    /*** @return Main */
+    public static function getInstance(): Main {
+        return self::$main;
     }
 
     /*** @param Player $player */
     public function giveTo(Player $player): void {
         $this->getScheduler()->scheduleDelayedRepeatingTask(
-            new VolcanoTak($player, $player->getWorld()), 0, 2
+            new VolcanoTak($player, $player->getWorld()), 1, 3
         );
     }
 
