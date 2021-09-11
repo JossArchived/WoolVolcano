@@ -56,7 +56,7 @@ class Main extends PluginBase {
     /*** @param Player $player */
     public function giveTo(Player $player): void {
         $this->getScheduler()->scheduleDelayedRepeatingTask(
-            new VolcanoTak($player, $player->getWorld()), 1, 3
+            new VolcanoTak($player, $player->getWorld()), 0, 2
         );
     }
 }
