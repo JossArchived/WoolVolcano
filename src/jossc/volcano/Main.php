@@ -33,6 +33,10 @@ class Main extends PluginBase {
         $this->getLogger()->info(TextFormat::GREEN . 'This plugin has been enabled!.');
     }
 
+    protected function onDisable(): void {
+        $this->getLogger()->info(TextFormat::RED . 'This plugin has been disabled!.');
+    }
+
     private function registerEntity(): void {
         EntityFactory::getInstance()->register(CustomFallingWoolBlock::class,
             function(World $world, CompoundTag $nbt) : CustomFallingWoolBlock {
@@ -54,9 +58,5 @@ class Main extends PluginBase {
         $this->getScheduler()->scheduleDelayedRepeatingTask(
             new VolcanoTak($player, $player->getWorld()), 1, 3
         );
-    }
-
-    protected function onDisable(): void {
-        $this->getLogger()->info(TextFormat::RED . 'This plugin has been disabled!.');
     }
 }
