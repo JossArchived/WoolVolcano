@@ -12,7 +12,6 @@ class CustomFallingWoolBlock extends FallingBlock {
         $this->block = BlockFactory::get(Block::WOOL, rand(0, 15));
 
         $this->propertyManager->setInt(self::DATA_VARIANT, $this->block->getRuntimeId());
-
         $this->setForceMovementUpdate(true);
         $this->setCanSaveWithChunk(false);
     }
