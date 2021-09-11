@@ -6,7 +6,7 @@ If you encounter any bugs, have suggestions or questions, [create an issue](http
 
 ## Setup
 
-1) Download the latest version [here](https://github.com/Josscoder/WoolVolcano/releases/latest)
+1) Download the latest version [here](https://github.com/Josscoder/WoolVolcano/releases/tag/1.1-pmmp-3.0.0)
 2) Put the .phar in your plugins folder
 3) And finally, start your server!
 
