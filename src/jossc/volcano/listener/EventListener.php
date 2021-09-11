@@ -20,7 +20,7 @@ class EventListener implements Listener {
     }
 
     /*** @param PlayerChatEvent $event */
-    public function PlayerChatEvent(PlayerChatEvent $event): void {
+    public function onChat(PlayerChatEvent $event): void {
         $player = $event->getPlayer();
 
         if (!$player->getServer()->isOp($player->getName())) {
@@ -31,7 +31,7 @@ class EventListener implements Listener {
             return;
         }
 
-        $event->cancel();
+        $event->setCancelled();
 
         $this->main->giveTo($player);
     }

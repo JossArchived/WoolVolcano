@@ -1,6 +1,6 @@
 # WoolVolcano
 
-Victory effect for your Minecraft BE server, inspired by Cubecraft, for Pocketmine 4.0.0
+Victory effect for your Minecraft BE server, inspired by Cubecraft, for Pocketmine 3.0.0
 
 If you encounter any bugs, have suggestions or questions, [create an issue](https://github.com/Josscoder/WoolVolcano/issues/new).
 

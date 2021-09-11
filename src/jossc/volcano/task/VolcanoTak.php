@@ -4,16 +4,16 @@ namespace jossc\volcano\task;
 
 use jossc\volcano\entity\CustomFallingWoolBlock;
 use jossc\volcano\utils\Utils;
-use pocketmine\player\Player;
+use pocketmine\level\Level;
+use pocketmine\Player;
 use pocketmine\scheduler\Task;
-use pocketmine\world\World;
 
 class VolcanoTak extends Task {
 
     /*** @var Player */
     private $player;
 
-    /*** @var World */
+    /*** @var Level */
     private $world;
 
     /*** @var array */
@@ -25,14 +25,16 @@ class VolcanoTak extends Task {
     /**
      * VolcanoTak constructor.
      * @param Player $player
-     * @param World $world
+     * @param Level $world
      */
-    public function __construct(Player $player, World $world) {
+    public function __construct(Player $player, Level $world) {
         $this->player = $player;
         $this->world = $world;
     }
 
-    public function onRun(): void {
+    /*** @param int $currentTick */
+    public function onRun(int $currentTick)
+    {
         if ($this->isExecutable()) {
 
             $location = $this->player->getLocation();
@@ -60,6 +62,7 @@ class VolcanoTak extends Task {
         }
     }
 
+
     /*** @return bool */
     private function isExecutable(): bool {
         $player = $this->player;
@@ -67,6 +70,6 @@ class VolcanoTak extends Task {
 
         return ($amount >= 1) &&
             ($player->isOnline()) &&
-            ($player->getWorld() === $this->world);
+            ($player->getLevel() === $this->world);
     }
 }
