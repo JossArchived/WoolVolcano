@@ -18,7 +18,7 @@ use pocketmine\world\World;
 class Main extends PluginBase {
 
     /*** @var Main */
-    private static $main;
+    private static Main $main;
 
     protected function onEnable(): void{
         self::$main = $this;

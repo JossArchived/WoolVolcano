@@ -11,16 +11,16 @@ use pocketmine\world\World;
 class VolcanoTak extends Task {
 
     /*** @var Player */
-    private $player;
+    private Player $player;
 
     /*** @var World */
-    private $world;
+    private World $world;
 
     /*** @var array */
-    private $fallingBlocks = [];
+    private array $fallingBlocks = [];
 
     /*** @var int */
-    private $amount = 100;
+    private int $amount = 100;
 
     /**
      * VolcanoTak constructor.

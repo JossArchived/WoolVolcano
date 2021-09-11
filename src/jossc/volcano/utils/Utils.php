@@ -5,7 +5,6 @@ namespace jossc\volcano\utils;
 use jossc\volcano\entity\CustomFallingWoolBlock;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
-use pocketmine\entity\EntityDataHelper;
 use pocketmine\entity\Location;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\PlaySoundPacket;
@@ -18,12 +17,9 @@ class Utils {
      * @return CustomFallingWoolBlock
      */
     public static function generateFallingWoolBlock(Location $location): CustomFallingWoolBlock {
-        $nbt = EntityDataHelper::createBaseNBT($location->asVector3());
-
         $fallingBlock = new CustomFallingWoolBlock(
             $location,
-            BlockFactory::getInstance()->get(BlockLegacyIds::WOOL, rand(0, 15)),
-            $nbt
+            BlockFactory::getInstance()->get(BlockLegacyIds::WOOL, rand(0, 15))
         );
 
         $fallingBlock->setMotion(new Vector3(
@@ -52,6 +48,6 @@ class Utils {
         $pk->y = $location->y;
         $pk->z = $location->z;
 
-        $player->getNetworkSession()->sendDataPacket($pk);
+        $player->getNetworkSession()->sendDataPacket($pk, true);
     }
 }

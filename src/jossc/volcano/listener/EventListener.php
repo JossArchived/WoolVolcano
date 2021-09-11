@@ -9,7 +9,7 @@ use pocketmine\event\player\PlayerChatEvent;
 class EventListener implements Listener {
 
     /*** @var Main */
-    private $main;
+    private Main $main;
 
     /**
      * EventListener constructor.
@@ -20,7 +20,7 @@ class EventListener implements Listener {
     }
 
     /*** @param PlayerChatEvent $event */
-    public function PlayerChatEvent(PlayerChatEvent $event): void {
+    public function onChat(PlayerChatEvent $event): void {
         $player = $event->getPlayer();
 
         if (!$player->getServer()->isOp($player->getName())) {
