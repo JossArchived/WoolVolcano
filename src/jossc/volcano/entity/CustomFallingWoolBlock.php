@@ -2,18 +2,15 @@
 
 namespace jossc\volcano\entity;
 
+use pocketmine\block\Block;
 use pocketmine\entity\object\FallingBlock;
-use pocketmine\nbt\tag\CompoundTag;
 
 class CustomFallingWoolBlock extends FallingBlock {
 
-    /*** @param CompoundTag $nbt */
-    protected function initEntity(CompoundTag $nbt): void
+    protected function initEntity(): void
     {
-        parent::initEntity($nbt);
-
+        $this->block = Block::get(Block::WOOL, rand(0, 15));
         $this->setForceMovementUpdate(true);
-        $this->setSilent(true);
         $this->setCanSaveWithChunk(false);
     }
 
@@ -21,7 +18,7 @@ class CustomFallingWoolBlock extends FallingBlock {
      * @param int $tickDiff
      * @return bool
      */
-    protected function entityBaseTick(int $tickDiff = 1): bool
+    public function entityBaseTick(int $tickDiff = 1): bool
     {
         if ($this->isClosed()) {
             return false;

@@ -5,22 +5,20 @@ namespace jossc\volcano;
 use jossc\volcano\entity\CustomFallingWoolBlock;
 use jossc\volcano\listener\EventListener;
 use jossc\volcano\task\VolcanoTak;
-use pocketmine\block\BlockFactory;
-use pocketmine\block\BlockLegacyIds;
-use pocketmine\entity\EntityDataHelper;
-use pocketmine\entity\EntityFactory;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\player\Player;
+use pocketmine\entity\Entity;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
-use pocketmine\world\World;
 
 class Main extends PluginBase {
 
     /*** @var Main */
     private static $main;
 
-    protected function onEnable(): void{
+    public function onEnable()
+    {
+        parent::onEnable();
+
         self::$main = $this;
 
         $this->registerEntity();
@@ -33,15 +31,14 @@ class Main extends PluginBase {
         $this->getLogger()->info(TextFormat::GREEN . 'This plugin has been enabled!.');
     }
 
+    public function onDisable(): void {
+        parent::onDisable();
+
+        $this->getLogger()->info(TextFormat::RED . 'This plugin has been disabled!.');
+    }
+
     private function registerEntity(): void {
-        EntityFactory::getInstance()->register(CustomFallingWoolBlock::class,
-            function(World $world, CompoundTag $nbt) : CustomFallingWoolBlock {
-            return new CustomFallingWoolBlock(
-                EntityDataHelper::parseLocation($nbt, $world),
-                BlockFactory::getInstance()->get(BlockLegacyIds::WOOL, 0),
-                $nbt
-            );
-        }, ['CustomFallingWoolBlock', 'minecraft:falling_wool_block_entity']);
+        Entity::registerEntity(CustomFallingWoolBlock::class, true);
     }
 
     /*** @return Main */
@@ -52,11 +49,7 @@ class Main extends PluginBase {
     /*** @param Player $player */
     public function giveTo(Player $player): void {
         $this->getScheduler()->scheduleDelayedRepeatingTask(
-            new VolcanoTak($player, $player->getWorld()), 1, 3
+            new VolcanoTak($player, $player->getLevel()), 1, 3
         );
-    }
-
-    protected function onDisable(): void {
-        $this->getLogger()->info(TextFormat::RED . 'This plugin has been disabled!.');
     }
 }
