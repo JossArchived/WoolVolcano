@@ -4,12 +4,6 @@ Victory effect for your Minecraft BE server, inspired by Cubecraft, for Pocketmi
 
 If you encounter any bugs, have suggestions or questions, [create an issue](https://github.com/Josscoder/WoolVolcano/issues/new).
 
-## Setup
-
-1) Download the latest version here
-2) Put the .phar in your plugins folder
-3) And finally, start your server!
-
 ## How can I preview?
 
 Only operator players can write "volcano" without quotes in the server chat.
